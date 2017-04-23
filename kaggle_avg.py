@@ -1,10 +1,13 @@
+# coding=utf-8
 from collections import defaultdict
 from glob import glob
 import sys
 
-glob_files = sys.argv[1]
-loc_outfile = sys.argv[2]
-
+"""
+普通平均可以很好的解决一系列问题(二分类与回归问题)与指标(AUC,误差平方或对数损失)。
+与其说平均，不如说采用了多个个体模型预测值的平均。
+平均预测常常会降低过拟合。在类与类间，你想要理想的平滑的将其分离，而单一模型的预测在边界间可能会有一些粗糙。
+"""
 def kaggle_bag(glob_files, loc_outfile, method="average", weights="uniform"):
   if method == "average":
     scores = defaultdict(float)
@@ -24,4 +27,9 @@ def kaggle_bag(glob_files, loc_outfile, method="average", weights="uniform"):
       outfile.write("%s,%f\n"%(k,scores[(j,k)]/(i+1)))
     print("wrote to %s"%loc_outfile)
 
-kaggle_bag(glob_files, loc_outfile)
+if __name__ == "__main__":
+  print( '回归问题多个模型均值平滑' )
+  path = 'D:/code/Kaggle-Ensemble-Guide/'
+  glob_files = path+"samples/method*.csv"
+  loc_outfile = path+"samples/kaggle_avg.csv"
+  kaggle_bag(glob_files, loc_outfile)

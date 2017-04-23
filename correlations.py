@@ -1,8 +1,6 @@
+# coding=utf-8
 import pandas as pd
 import sys
-
-first_file = sys.argv[1]
-second_file = sys.argv[2]
 
 def corr(first_file, second_file):
   first_df = pd.read_csv(first_file,index_col=0)
@@ -16,4 +14,10 @@ def corr(first_file, second_file):
   print "Kendall's correlation score: %0.5f" % first_df[prediction].corr(second_df[prediction],method='kendall')
   print "Spearman's correlation score: %0.5f" % first_df[prediction].corr(second_df[prediction],method='spearman')
 
-corr(first_file, second_file)
+if __name__ == "__main__":
+  print( '计算相关性系数' )
+  path = 'D:/code/Kaggle-Ensemble-Guide/'
+  first_file = path+'samples/method1.csv'
+  second_file = path+'samples/method2.csv'
+  corr(first_file, second_file)
+  ##集成低相关性的模型结果似乎会增加纠错能力。
